@@ -1,0 +1,6 @@
+﻿  Application.cpp
+  MemoryAlloc.cpp
+  MemoryLeak.cpp
+  Generating Code...
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  N2.vcxproj -> C:\Users\Elson\Documents\Visual Studio 2017\Projects\N2-Engine\Debug\N2.exe
