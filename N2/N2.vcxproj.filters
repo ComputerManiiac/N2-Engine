@@ -18,24 +18,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Application.cpp">
+    <ClCompile Include="Source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Memory\MemoryLeak.cpp">
-      <Filter>Source Files\Memory</Filter>
+    <ClCompile Include="Source\Memory\MemoryAlloc.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Memory\MemoryAlloc.cpp">
-      <Filter>Source Files\Memory</Filter>
+    <ClCompile Include="Source\Memory\MemoryLeak.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Memory\MemoryLeak.hpp">
+    <ClInclude Include="Source\Memory\MemoryAlloc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Memory\MemoryAlloc.h">
+    <ClInclude Include="Source\Memory\MemoryLeak.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Memory\OverloadNew.h">
+    <ClInclude Include="Source\Memory\OverloadNew.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
