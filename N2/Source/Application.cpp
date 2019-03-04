@@ -65,6 +65,11 @@ void Application::Run()
 	glfwTerminate();
 }
 
+void Application::Deinitialize()
+{
+
+}
+
 bool Application::isKeyPressed(int key)
 {
 	return glfwGetKey(window, key);

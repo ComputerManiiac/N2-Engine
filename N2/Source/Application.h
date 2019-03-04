@@ -16,6 +16,7 @@ public:
 
 	virtual void Initialize();
 	virtual void Run();
+	virtual void Deinitialize();
 
 	static bool isKeyPressed(int key);
 	static bool isKeyPressDown(int key);
@@ -28,9 +29,12 @@ public:
 
 private:
 
+	static void keyCallback(GLFWwindow* window, int key, int scanNode, int action, int mods);
+
+protected:
+
 	static std::map<int, bool> keyDown;
 	static std::map<int, bool> keyRelease;
-	static void keyCallback(GLFWwindow* window, int key, int scanNode, int action, int mods);
 
 	static GLFWwindow* window;
 	const char* name;

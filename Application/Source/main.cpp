@@ -1,17 +1,17 @@
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
 #include "Utility.h"
-#include "Application.h"
+#include "GameApp.h"
 
 int main(void)
 {
 	
 
 
-	Application* app = new Application("N2 Engine", 1366, 768);
-	app->Initialize();
-	app->Run();
-	delete app;
+	GameApp* game = new GameApp("N2 Engine", 1366, 768);
+	game->Initialize();
+	game->Run();
+	delete game;
 
 	MemoryLeak::Dump();
 	return 0;

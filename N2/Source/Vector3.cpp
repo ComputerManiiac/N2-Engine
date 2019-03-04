@@ -371,7 +371,13 @@ Vector3& Vector3::Normalize( void ) throw( DivideByZero )
 
 std::ostream& operator<< (std::ostream& os, Vector3& rhs)
 {
-	os << "[ " << rhs.x << ", " << rhs.y << ", " << rhs.z << " ]";
+	os << "(" << rhs.x << "," << rhs.y << "," << rhs.z << ")";
+	return os;
+}
+
+std::ostream& operator<< (std::ostream& os, Vector3 rhs)
+{
+	os << "(" << rhs.x << "," << rhs.y << "," << rhs.z << ")";
 	return os;
 }
 
