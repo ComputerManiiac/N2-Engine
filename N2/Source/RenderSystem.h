@@ -3,34 +3,27 @@
 
 #include "System.h"
 #include "RenderComponent.h"
-
+#include "MatrixStack.h"
 #include <vector>
 
-template<typename T>
 class RenderSystem : public System
 {
 public:
-	RenderSystem() {}
-	~RenderSystem() {}
+	RenderSystem();
+	~RenderSystem();
+	void Initialize();
+	void Update();
+	void Deinitialize();
 
-	void registerComp(Component* component)
-	{
-		T* tComp = dynamic_cast<T*>(component);
-		if (tComp != nullptr)
-			subscribers.push_back(tComp);
-	}
+	void registerComp(Component* component);
+	void removeComp(Component* component);
 
-	void removeComp(Component* component)
-	{
-		T* tComp = dynamic_cast<T*>(component);
-		if (tComp != nullptr)
-		{
-			subscribers.erase(std::remove(subscribers.begin(), subscribers.end(), tComp));
-		}
-	}
 
 private:
-	std::vector<T*> subscribers;
+	unsigned int VAO;
+	std::vector<RenderComponent*> subscribers;
+	MS modelStack, projectionStack, viewStack;
+
 };
 
 #endif

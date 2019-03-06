@@ -24,14 +24,14 @@ public:
 
 
 	/* Initialized by RenderSystem*/
-	void setBufferObjects(const unsigned int& VBO, const unsigned int& IBO);
-
+	void setBufferObjects(const unsigned int& VBO, const unsigned int& EBO);
+	
 
 	/* Needed for Rendering */
-	OBJInfo getInfo();
+	OBJInfo& getInfo();
 	DRAW_MODE getMode();
 	unsigned int getVBO();
-	unsigned int getIBO();
+	unsigned int getEBO();
 	unsigned int getTexID();
 
 
@@ -40,7 +40,7 @@ private:
 	DRAW_MODE mode;
 	OBJInfo info;
 	unsigned int VBO;
-	unsigned int IBO;
+	unsigned int EBO;
 	unsigned int textureID;
 };
 

@@ -2,6 +2,7 @@
 #define MANAGER_H
 
 #include "Core.h"
+#include "Camera.h"
 #include <typeindex>
 #include <vector>
 
@@ -11,17 +12,28 @@ public:
 	static Manager* getInstance();
 	~Manager();
 
+
+	
+	void Initialize();
+	void Update();
+
 	template<typename T>
 	void registerComponent(Component* component);
 
 	template<typename T>
 	void registerSystem();
 
+	Camera* getCamera();
+	ShaderProgram* getShader(const std::string& name);
+
 private:
+
 	Manager();
 	static Manager* instance;
 	std::map<std::type_index, System*> systems;
-
+	std::map<std::string, ShaderProgram*> shaders;
+	Camera camera;
+	Entity* entity;
 };
 
 

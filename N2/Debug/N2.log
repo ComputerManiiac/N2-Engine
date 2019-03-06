@@ -1,4 +1,6 @@
-﻿  Application.cpp
+﻿  RenderSystem.cpp
+c:\program files (x86)\windows kits\10\include\10.0.17134.0\shared\minwindef.h(130): warning C4005: 'APIENTRY': macro redefinition
+  c:\users\elson\documents\visual studio 2017\projects\n2-engine\n2\dependencies\glfw\include\glfw\glfw3.h(98): note: see previous definition of 'APIENTRY'
 winmm.lib(WINMM.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in opengl32.lib(OPENGL32.dll); second definition ignored
 winmm.lib(WINMM.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
-  N2.vcxproj -> C:\Users\compu\Desktop\N2\N2-Engine\Debug\N2.lib
+  N2.vcxproj -> C:\Users\Elson\Documents\Visual Studio 2017\Projects\N2-Engine\Debug\N2.lib

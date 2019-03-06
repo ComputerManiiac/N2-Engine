@@ -9,7 +9,7 @@
 
 
 #include "Loader.h"
-
+#include "ShaderProgram.h"
 #include "Entity.h"
 
 #include "Component.h"
@@ -22,6 +22,5 @@
 #include "timer.h"
 
 
-typedef RenderSystem<RenderComponent> RenderSys;
 
 #endif

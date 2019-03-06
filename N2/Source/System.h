@@ -12,6 +12,10 @@ public:
 	System() {}
 	virtual ~System() {}
 
+	virtual void Initialize() = 0;
+	virtual void Update() = 0;
+	virtual void Deinitialize() = 0;
+
 	virtual void registerComp(Component* component) = 0;
 	virtual void removeComp(Component* component) = 0;
 

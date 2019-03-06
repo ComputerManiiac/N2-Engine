@@ -26,14 +26,14 @@ RenderComponent::~RenderComponent()
 
 }
 
-void RenderComponent::setBufferObjects(const unsigned int & VBO, const unsigned int & IBO)
+void RenderComponent::setBufferObjects(const unsigned int & VBO, const unsigned int & EBO)
 {
 	this->VBO = VBO;
-	this->IBO = IBO;
+	this->EBO = EBO;
 }
 
 
-OBJInfo RenderComponent::getInfo()
+OBJInfo& RenderComponent::getInfo()
 {
 	return info;
 }
@@ -48,9 +48,9 @@ unsigned int RenderComponent::getVBO()
 	return VBO;
 }
 
-unsigned int RenderComponent::getIBO()
+unsigned int RenderComponent::getEBO()
 {
-	return IBO;
+	return EBO;
 }
 
 unsigned int RenderComponent::getTexID()

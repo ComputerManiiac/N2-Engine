@@ -15,8 +15,6 @@ class ShaderProgram
 {
 public:
 
-
-
 	ShaderProgram(std::string vertexPath, std::string fragmentPath);
 
 	void Use();
