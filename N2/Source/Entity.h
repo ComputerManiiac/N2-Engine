@@ -2,6 +2,8 @@
 #define ENTITY_H
 
 #include "Component.h"
+#include "TransformComponent.h"
+#include "RenderComponent.h"
 #include <map>
 #include <typeinfo>
 #include <typeindex>
@@ -26,14 +28,20 @@ private:
 template<typename T>
 void Entity::addComponent(T* component)
 {
-	components[std::type_index(typeid(component))] = component;
+	std::type_index id = std::type_index(typeid(component));
+	if (components.find(id) != components.end())
+		delete components[id];
+	components[id] = component;
 }
 
 template<typename T>
 T* Entity::getComponent()
 {
 	Component* comp = components[std::type_index(typeid(T*))];
-	return dynamic_cast<T*>(comp);
+	T* tComp = dynamic_cast<T*>(comp);
+	if (tComp == nullptr) 
+		std::cout << "[ERROR] Trying to retrieve component of type " << typeid(T).name() << " from Entity which does not exist!" << std::endl;
+	return tComp;
 }
 
 #endif

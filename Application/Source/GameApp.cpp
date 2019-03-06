@@ -1,6 +1,9 @@
 #include "GameApp.h"
 #include "Entity.h"
 #include "TransformComponent.h"
+#include "RenderComponent.h"
+#include "RenderSystem.h"
+#include "Manager.h"
 
 GameApp::GameApp(const char* name, unsigned int screenWidth, unsigned int screenHeight)
 	: Application(name, screenWidth, screenHeight)
@@ -26,9 +29,11 @@ void GameApp::Initialize()
 void GameApp::Run()
 {
 
+	Manager* m = Manager::getInstance();
 	Entity entity;
-	entity.addComponent(new TransformComponent());
-	entity.getComponent<TransformComponent>();
+	RenderComponent* render = entity.getComponent<RenderComponent>();
+
+	m->registerComponent<RenderSystem<RenderComponent>>(render);
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))

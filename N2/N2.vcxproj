@@ -98,7 +98,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)N2\Dependencies\GLFW\lib-vc2015;$(SolutionDir)N2\Dependencies\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32s.lib</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;winmm.lib;glew32s.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -133,7 +133,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)N2\Dependencies\GLFW\lib-vc2015;$(SolutionDir)N2\Dependencies\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32s.lib</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;winmm.lib;glew32s.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -153,6 +153,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Manager.cpp" />
+    <ClCompile Include="Source\RenderComponent.cpp" />
+    <ClCompile Include="Source\OBJInfo.cpp" />
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\Loader.cpp" />
@@ -163,9 +166,15 @@
     <ClCompile Include="Source\MemoryLeak.cpp" />
     <ClCompile Include="Source\Mtx44.cpp" />
     <ClCompile Include="Source\timer.cpp" />
+    <ClCompile Include="Source\TransformComponent.cpp" />
     <ClCompile Include="Source\Vector3.cpp" />
+    <ClCompile Include="Source\Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Manager.h" />
+    <ClInclude Include="Source\RenderSystem.h" />
+    <ClInclude Include="Source\RenderComponent.h" />
+    <ClInclude Include="Source\OBJInfo.h" />
     <ClInclude Include="Source\Component.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\Loader.h" />
@@ -178,7 +187,10 @@
     <ClInclude Include="Source\Mtx44.h" />
     <ClInclude Include="Source\MyMath.h" />
     <ClInclude Include="Source\timer.h" />
+    <ClInclude Include="Source\TransformComponent.h" />
     <ClInclude Include="Source\Vector3.h" />
+    <ClInclude Include="Source\Vertex.h" />
+    <ClInclude Include="Source\System.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

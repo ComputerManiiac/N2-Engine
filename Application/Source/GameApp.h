@@ -2,6 +2,9 @@
 #define GAMEAPP_H
 
 #include "Application.h"
+#include "Utility.h"
+#include "Loader.h"
+
 
 class GameApp : public Application
 {

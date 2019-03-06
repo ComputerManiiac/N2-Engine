@@ -147,7 +147,6 @@
   <ItemGroup>
     <ClCompile Include="Source\GameApp.cpp" />
     <ClCompile Include="Source\main.cpp" />
-    <ClCompile Include="Source\TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\N2\N2.vcxproj">
@@ -157,7 +156,6 @@
   <ItemGroup>
     <ClInclude Include="Source\GameApp.h" />
     <ClInclude Include="Source\Utility.h" />
-    <ClInclude Include="Source\TransformComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
