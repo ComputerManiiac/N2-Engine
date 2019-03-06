@@ -14,9 +14,7 @@ public:
 	Application();
 	virtual ~Application();
 
-	virtual void Initialize();
 	virtual void Run();
-	virtual void Deinitialize();
 
 	static bool isKeyPressed(int key);
 	static bool isKeyPressDown(int key);

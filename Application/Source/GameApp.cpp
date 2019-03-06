@@ -1,14 +1,11 @@
 #include "GameApp.h"
-#include "Entity.h"
-#include "TransformComponent.h"
-#include "RenderComponent.h"
-#include "RenderSystem.h"
 #include "Manager.h"
+#include "Core.h"
 
 GameApp::GameApp(const char* name, unsigned int screenWidth, unsigned int screenHeight)
 	: Application(name, screenWidth, screenHeight)
 {
-
+	
 }
 
 GameApp::GameApp()
@@ -18,13 +15,10 @@ GameApp::GameApp()
 
 GameApp::~GameApp()
 {
+	delete Manager::getInstance();
 }
 
 
-void GameApp::Initialize()
-{
-	Application::Initialize();
-}
 
 void GameApp::Run()
 {
@@ -33,7 +27,7 @@ void GameApp::Run()
 	Entity entity;
 	RenderComponent* render = entity.getComponent<RenderComponent>();
 
-	m->registerComponent<RenderSystem<RenderComponent>>(render);
+	//m->registerComponent<RenderSystem<RenderComponent>>(render);
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -58,7 +52,3 @@ void GameApp::Run()
 	glfwTerminate();
 }
 
-void GameApp::Deinitialize()
-{
-	Application::Deinitialize();
-}

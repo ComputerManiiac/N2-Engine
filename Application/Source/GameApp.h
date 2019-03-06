@@ -2,8 +2,7 @@
 #define GAMEAPP_H
 
 #include "Application.h"
-#include "Utility.h"
-#include "Loader.h"
+#include "Core.h"
 
 
 class GameApp : public Application
@@ -13,9 +12,7 @@ public:
 	GameApp();
 	~GameApp();
 
-	void Initialize();
 	void Run();
-	void Deinitialize();
 };
 
 #endif

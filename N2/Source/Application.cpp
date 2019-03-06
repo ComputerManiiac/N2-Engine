@@ -9,19 +9,6 @@ Application::Application(const char* name, unsigned int screenWidth, unsigned in
 	this->name = name;
 	this->screenWidth = screenWidth;
 	this->screenHeight = screenHeight;
-}
-
-Application::Application()
-{
-}
-
-
-Application::~Application()
-{
-}
-
-void Application::Initialize()
-{
 
 	/* Initialize the library */
 	if (!glfwInit()) return;
@@ -33,13 +20,22 @@ void Application::Initialize()
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
 
-	if (glewInit() != GLEW_OK){
+	if (glewInit() != GLEW_OK) {
 		std::cout << "[ERROR] GLEW not initialized properly!" << std::endl;
 		return;
 	}
 
 	glfwSetKeyCallback(window, keyCallback);
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, 1);
+}
+
+Application::Application()
+{
+}
+
+
+Application::~Application()
+{
 }
 
 void Application::Run()
@@ -65,10 +61,7 @@ void Application::Run()
 	glfwTerminate();
 }
 
-void Application::Deinitialize()
-{
 
-}
 
 bool Application::isKeyPressed(int key)
 {

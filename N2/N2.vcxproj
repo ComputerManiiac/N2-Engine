@@ -153,6 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\EventHandler.cpp" />
     <ClCompile Include="Source\Manager.cpp" />
     <ClCompile Include="Source\RenderComponent.cpp" />
     <ClCompile Include="Source\OBJInfo.cpp" />
@@ -171,6 +172,8 @@
     <ClCompile Include="Source\Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\EventHandler.h" />
+    <ClInclude Include="Source\Core.h" />
     <ClInclude Include="Source\Manager.h" />
     <ClInclude Include="Source\RenderSystem.h" />
     <ClInclude Include="Source\RenderComponent.h" />

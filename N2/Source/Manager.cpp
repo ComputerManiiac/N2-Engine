@@ -4,8 +4,7 @@ Manager* Manager::instance = nullptr;
 
 Manager::Manager()
 {
-	RenderSystem<RenderComponent>* system = new RenderSystem<RenderComponent>();
-	systems[std::type_index(typeid(system))] = system;
+	registerSystem<RenderSys>();
 }
 
 
@@ -18,6 +17,11 @@ Manager * Manager::getInstance()
 
 Manager::~Manager()
 {
+
+	for (auto& system : systems) {
+		delete system.second;
+	}
+
 }
 
 
