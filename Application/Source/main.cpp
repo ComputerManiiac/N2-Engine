@@ -5,7 +5,7 @@
 int main(void)
 {
 	
-	GameApp* game = new GameApp("N2 Engine", 1366, 768);
+	GameApp* game = new GameApp("N2 Engine", 1368, 768);
 	game->Run();
 	delete game;
 

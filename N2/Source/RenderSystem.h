@@ -12,7 +12,7 @@ public:
 	RenderSystem();
 	~RenderSystem();
 	void Initialize();
-	void Update();
+	void Update(double dt);
 	void Deinitialize();
 
 	void registerComp(Component* component);

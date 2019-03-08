@@ -15,7 +15,7 @@ public:
 
 	
 	void Initialize();
-	void Update();
+	void Update(double dt);
 
 	template<typename T>
 	void registerComponent(Component* component);

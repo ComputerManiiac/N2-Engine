@@ -66,11 +66,12 @@ ShaderProgram * Manager::getShader(const std::string & name)
 }
 
 
-void Manager::Update()
+void Manager::Update(double dt)
 {
+	camera.Update(dt);
 	for (auto& system : systems)
 	{
 		System* sys = system.second;
-		sys->Update();
+		sys->Update(dt);
 	}
 }

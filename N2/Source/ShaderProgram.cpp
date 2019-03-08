@@ -78,24 +78,24 @@ void ShaderProgram::setFloat(const std::string &name, float value) const
 	glUniform1f(glGetUniformLocation(id, name.c_str()), value);
 }
 
-void ShaderProgram::setVec3(const std::string &name, Vector3 vec)
+void ShaderProgram::setVec3(const std::string &name, Vector3 vec) const
 {
 	setVec3(name, vec.x, vec.y, vec.z);
 }
 
 
-void ShaderProgram::setVec3(const std::string &name, float x, float y, float z)
+void ShaderProgram::setVec3(const std::string &name, float x, float y, float z) const
 {
 	glUniform3f(glGetUniformLocation(id, name.c_str()), x, y, z);
 }
 
-void ShaderProgram::setVec4(const std::string &name, float x, float y, float z, float w)
+void ShaderProgram::setVec4(const std::string &name, float x, float y, float z, float w) const
 {
 	int attrid = glGetUniformLocation(id, name.c_str());
 	glUniform4f(attrid, x, y, z, w);
 }
 
-void ShaderProgram::setMat4(const std::string &name, Mtx44 matrix)
+void ShaderProgram::setMat4(const std::string &name, Mtx44 matrix) const
 {
 	unsigned int attrid = glGetUniformLocation(id, name.c_str());
 	glUniformMatrix4fv(attrid, 1, false, &matrix.a[0]);

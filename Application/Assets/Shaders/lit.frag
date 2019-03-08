@@ -1,141 +1,126 @@
 #version 330 core
-out vec4 FragColor;
+
+// Interpolated values from the vertex shaders
+in vec3 vertexPosition_cameraspace;
+in vec3 vertexNormal_cameraspace;
+in vec2 texCoord;
+
+// Ouput data
+out vec4 color;
+
+struct Light {
+	int type;
+	vec3 position_cameraspace;
+	vec3 color;
+	float power;
+	float kC;
+	float kL;
+	float kQ;
+	vec3 spotDirection;
+	float cosCutoff;
+	float cosInner;
+	float exponent;
+};
 
 struct Material {
-    sampler2D diffuse;
-    sampler2D specular;
-    float shininess;
-}; 
-
-struct DirLight {
-    vec3 direction;
-	
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
+	vec3 kAmbient;
+	vec3 kDiffuse;
+	vec3 kSpecular;
+	float kShininess;
 };
 
-struct PointLight {
-    vec3 position;
-    
-    float constant;
-    float linear;
-    float quadratic;
-	
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
-};
+float getAttenuation(Light light, float distance) {
+	if(light.type == 1)
+		return 1;
+	else
+		return 1 / max(1, light.kC + light.kL * distance + light.kQ * distance * distance);
+}
 
-struct SpotLight {
-    vec3 position;
-    vec3 direction;
-    float cutOff;
-    float outerCutOff;
-  
-    float constant;
-    float linear;
-    float quadratic;
-  
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;       
-};
+float getSpotlightEffect(Light light, vec3 lightDirection) {
+	vec3 S = normalize(light.spotDirection);
+	vec3 L = normalize(lightDirection);
+	float cosDirection = dot(L, S);
+	//return smoothstep(light.cosCutoff, light.cosInner, cosDirection);
+	if(cosDirection < light.cosCutoff)
+		return 0;
+	else
+		return 1; //pow(cosDirection, light.exponent);
+}
 
-#define NR_POINT_LIGHTS 2
+// Constant values
+const int MAX_LIGHTS = 8;
 
-in vec3 position;
-in vec3 normal;
-in vec2 texCoords;
-
-uniform vec3 viewPos;
-uniform DirLight dirLight;
-uniform PointLight pointLights[NR_POINT_LIGHTS];
-uniform SpotLight spotLight;
+// Values that stay constant for the whole mesh.
+uniform bool lightEnabled;
+uniform Light lights[MAX_LIGHTS];
 uniform Material material;
+uniform int numLights;
+uniform bool colorTextureEnabled;
+uniform sampler2D colorTexture;
 
-vec3 calcDirLight(DirLight light, vec3 normal, vec3 viewDir);
-vec3 calcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
-vec3 calcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
+void main(){
+//	if(lightEnabled == true)
+//	{
+//		// Material properties
+//		vec4 materialColor;
+//		if(colorTextureEnabled == true)
+//			materialColor = texture2D( colorTexture, texCoord );
+//		else
+//			materialColor = vec4(1, 0, 0, 1);
+//
+//		// Vectors
+//		vec3 eyeDirection_cameraspace = - vertexPosition_cameraspace;
+//		vec3 E = normalize(eyeDirection_cameraspace);
+//		vec3 N = normalize( vertexNormal_cameraspace );
+//		
+//		color = vec4(0, 0, 0, 0);
+//		
+//		for(int i = 0; i < numLights; ++i)
+//		{
+//			// Light direction
+//			float spotlightEffect = 1;
+//			vec3 lightDirection_cameraspace;
+//			if(lights[i].type == 1) {
+//				lightDirection_cameraspace = lights[i].position_cameraspace;
+//			}
+//			else if(lights[i].type == 2) {
+//				lightDirection_cameraspace = lights[i].position_cameraspace - vertexPosition_cameraspace;
+//				spotlightEffect = getSpotlightEffect(lights[i], lightDirection_cameraspace);
+//			}
+//			else {
+//				lightDirection_cameraspace = lights[i].position_cameraspace - vertexPosition_cameraspace;
+//			}
+//			// Distance to the light
+//			float distance = length( lightDirection_cameraspace );
+//			
+//			// Light attenuation
+//			float attenuationFactor = getAttenuation(lights[i], distance);
+//
+//			vec3 L = normalize( lightDirection_cameraspace );
+//			float cosTheta = clamp( dot( N, L ), 0, 1 );
+//			
+//			vec3 R = reflect(-L, N);
+//			float cosAlpha = clamp( dot( E, R ), 0, 1 );
+//			
+//			color += 
+//				// Ambient : simulates indirect lighting
+//				materialColor * vec4(material.kAmbient, 1) +
+//				
+//				// Diffuse : "color" of the object
+//				materialColor * vec4(material.kDiffuse, 1) * vec4(lights[i].color, 1) * lights[i].power * cosTheta * attenuationFactor * spotlightEffect +
+//				
+//				// Specular : reflective highlight, like a mirror
+//				vec4(material.kSpecular, 1) * vec4(lights[i].color, 1) * lights[i].power * pow(cosAlpha, material.kShininess) * attenuationFactor * spotlightEffect;
+//		}
+//	}
+//	else
+//	{
+//		if(colorTextureEnabled == true)
+//			color = texture2D( colorTexture, texCoord );
+//		else
+//			color = vec4(1, 0, 0, 1);
+//	}
 
-void main()
-{    
-    vec3 norm = normalize(normal);
-    vec3 viewDir = normalize(viewPos - position);
-    
-    // Directional Lights
-    vec3 result = calcDirLight(dirLight, norm, viewDir);
-    // Point Lights
-    for(int i = 0; i < NR_POINT_LIGHTS; i++)
-        result += calcPointLight(pointLights[i], norm, position, viewDir);    
-//    // Spot Lights
-//    result += calcSpotLight(spotLight, norm, position, viewDir);    
-    
-	// Resulting Intensity of Light
-    FragColor = vec4(result, 1.0);
-}
+	color = texture2D( colorTexture, texCoord );
 
-// Directional Light Lighting
-vec3 calcDirLight(DirLight light, vec3 normal, vec3 viewDir)
-{
-    vec3 lightDir = normalize(-light.direction);
-    // diffuse shading
-    float diff = max(dot(normal, lightDir), 0.0);
-    // specular shading
-    // vec3 reflectDir = reflect(-lightDir, normal);
-	vec3 halfwayDir = normalize(lightDir + viewDir);
-    float spec = pow(max(dot(viewDir, halfwayDir), 0.0), material.shininess * 2);
-    // combine results
-    vec3 ambient = light.ambient * vec3(texture(material.diffuse, texCoords));
-    vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuse, texCoords));
-    vec3 specular = light.specular * spec * vec3(texture(material.specular, texCoords));
-    return (ambient + diffuse + specular);
-}
-
-// Point Light Lighting
-vec3 calcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
-{
-    vec3 lightDir = normalize(light.position - fragPos);
-    // Diffuse
-    float diff = max(dot(normal, lightDir), 0.0);
-    // Specular
-	vec3 halfwayDir = normalize(lightDir + viewDir);
-    float spec = pow(max(dot(viewDir, halfwayDir), 0.0), material.shininess * 2);
-    // Attenuation
-    float distance = length(light.position - fragPos);
-    float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));    
-    // Combine all lighting components
-    vec3 ambient = light.ambient * vec3(texture(material.diffuse, texCoords));
-    vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuse, texCoords));
-    vec3 specular = light.specular * spec * vec3(texture(material.specular, texCoords));
-    ambient *= attenuation;
-    diffuse *= attenuation;
-    specular *= attenuation;
-    return (ambient + diffuse + specular);
-}
-
-// Spotlight Lighting
-vec3 calcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
-{
-    vec3 lightDir = normalize(light.position - fragPos);
-     // Diffuse
-    float diff = max(dot(normal, lightDir), 0.0);
-    // Specular
-	vec3 halfwayDir = normalize(lightDir + viewDir);
-    float spec = pow(max(dot(viewDir, halfwayDir), 0.0), material.shininess * 2);
-    // Attenuation
-    float distance = length(light.position - fragPos);
-    float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));    
-    // Spotlight Intensity
-    float theta = dot(lightDir, normalize(-light.direction)); 
-    float epsilon = light.cutOff - light.outerCutOff;
-    float intensity = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
-   // Combine all lighting components
-    vec3 ambient = light.ambient * vec3(texture(material.diffuse, texCoords));
-    vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuse, texCoords));
-    vec3 specular = light.specular * spec * vec3(texture(material.specular, texCoords));
-    ambient *= attenuation * intensity;
-    diffuse *= attenuation * intensity;
-    specular *= attenuation * intensity;
-    return (ambient + diffuse + specular);
 }
