@@ -9,8 +9,8 @@ public:
 	MemoryAlloc(const char* file, int line);
 	MemoryAlloc();
 	~MemoryAlloc();
-	const char* getFile();
-	int& getLine();
+	const char* getFile() const;
+	const int& getLine() const;
 private:
 	const char* file;
 	int line;

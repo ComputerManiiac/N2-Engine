@@ -21,7 +21,7 @@ void main(){
 
 
 	// Output position of the vertex, in clip space : MVP * position
-	gl_Position = vec4(vertexPosition_modelspace, 1);
+	gl_Position = MVP * vec4(vertexPosition_modelspace, 1);
 
 	// Vector position, in camera space
 	vertexPosition_cameraspace = ( MV * vec4(vertexPosition_modelspace, 1) ).xyz;

@@ -153,7 +153,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\LightSource.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\Material.cpp" />
     <ClCompile Include="Source\RenderSystem.cpp" />
     <ClCompile Include="Source\EventHandler.cpp" />
     <ClCompile Include="Source\Manager.cpp" />
@@ -174,10 +176,12 @@
     <ClCompile Include="Source\Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\LightSource.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\EventHandler.h" />
     <ClInclude Include="Source\Core.h" />
     <ClInclude Include="Source\Manager.h" />
+    <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\RenderSystem.h" />
     <ClInclude Include="Source\RenderComponent.h" />
     <ClInclude Include="Source\OBJInfo.h" />

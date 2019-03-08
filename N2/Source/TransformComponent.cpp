@@ -10,7 +10,8 @@ TransformComponent::TransformComponent(Entity* parent, Vector3 pos, Vector3 rot,
 
 TransformComponent::TransformComponent(Entity* parent) : Component("Transform", parent)
 {
-	position.SetZero();
+	/*position.SetZero();*/
+	position.Set(5, 2, 1);
 	rotation.SetZero();
 	scale.Set(1, 1, 1);
 }
@@ -39,17 +40,17 @@ void TransformComponent::setScale(const Vector3 & scale)
 	this->scale = scale;
 }
 
-Vector3 TransformComponent::getPos()
+const Vector3& TransformComponent::getPos() const
 {
 	return position;
 }
 
-Vector3 TransformComponent::getRot()
+const Vector3& TransformComponent::getRot() const
 {
 	return rotation;
 }	
 
-Vector3 TransformComponent::getScale()
+const Vector3& TransformComponent::getScale() const
 {
 	return scale;
 }

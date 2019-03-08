@@ -9,12 +9,12 @@ MemoryAlloc::MemoryAlloc(const char* file, int line)
 MemoryAlloc::MemoryAlloc() {}
 MemoryAlloc::~MemoryAlloc() {}
 
-const char* MemoryAlloc::getFile()
+const char* MemoryAlloc::getFile() const
 {
 	return file;
 }
 
-int& MemoryAlloc::getLine()
+const int& MemoryAlloc::getLine() const
 {
 	return line;
 }

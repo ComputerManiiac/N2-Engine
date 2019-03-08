@@ -32,6 +32,7 @@ private:
 	static Manager* instance;
 	std::map<std::type_index, System*> systems;
 	std::map<std::string, ShaderProgram*> shaders;
+	std::map<std::string, Entity*> entities;
 	Camera camera;
 	Entity* entity;
 };

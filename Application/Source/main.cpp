@@ -2,12 +2,15 @@
 #include <GLFW\glfw3.h>
 #include "GameApp.h"
 
+
+
 int main(void)
 {
 	
 	GameApp* game = new GameApp("N2 Engine", 1368, 768);
 	game->Run();
 	delete game;
+
 
 
 	MemoryLeak::Dump();

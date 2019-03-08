@@ -11,9 +11,9 @@ class RenderSystem : public System
 public:
 	RenderSystem();
 	~RenderSystem();
+
 	void Initialize();
 	void Update(double dt);
-	void Deinitialize();
 
 	void registerComp(Component* component);
 	void removeComp(Component* component);

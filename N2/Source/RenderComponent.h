@@ -4,6 +4,7 @@
 #include <GL\glew.h>
 #include "Component.h"
 #include "OBJInfo.h"
+#include "Material.h"
 
 enum DRAW_MODE
 {
@@ -28,16 +29,18 @@ public:
 	
 
 	/* Needed for Rendering */
-	OBJInfo& getInfo();
-	DRAW_MODE getMode();
-	unsigned int getVBO();
-	unsigned int getEBO();
-	unsigned int getTexID();
+	const OBJInfo& getInfo() const;
+	const DRAW_MODE& getMode() const;
+	const Material& getMaterial() const;
+	const unsigned int& getVBO() const;
+	const unsigned int& getEBO() const;
+	const unsigned int& getTexID() const;
 
 
 
 private:
 	DRAW_MODE mode;
+	Material material;
 	OBJInfo info;
 	unsigned int VBO;
 	unsigned int EBO;

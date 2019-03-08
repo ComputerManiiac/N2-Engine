@@ -8,6 +8,7 @@ RenderComponent::RenderComponent(Entity* parent, OBJInfo info, unsigned int text
 	this->info = info;
 	this->textureID = textureID;
 
+	material = Material(0.2f, 0.1f, 1.0f);
 }
 
 
@@ -33,27 +34,32 @@ void RenderComponent::setBufferObjects(const unsigned int & VBO, const unsigned 
 }
 
 
-OBJInfo& RenderComponent::getInfo()
+const OBJInfo& RenderComponent::getInfo() const
 {
 	return info;
 }
 
-DRAW_MODE RenderComponent::getMode()
+const DRAW_MODE& RenderComponent::getMode() const
 {
 	return mode;
 }
 
-unsigned int RenderComponent::getVBO()
+const Material& RenderComponent::getMaterial() const
+{
+	return material;
+}
+
+const unsigned int& RenderComponent::getVBO() const
 {
 	return VBO;
 }
 
-unsigned int RenderComponent::getEBO()
+const unsigned int& RenderComponent::getEBO() const
 {
 	return EBO;
 }
 
-unsigned int RenderComponent::getTexID()
+const unsigned int& RenderComponent::getTexID() const
 {
 	return textureID;
 }

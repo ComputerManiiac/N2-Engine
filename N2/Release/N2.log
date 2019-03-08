@@ -1,0 +1,4 @@
+﻿  Loader.cpp
+  TransformComponent.cpp
+winmm.lib(WINMM.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in opengl32.lib(OPENGL32.dll); second definition ignored
+  N2.vcxproj -> C:\Users\compu\Desktop\N2\N2-Engine\Release\N2.lib

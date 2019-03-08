@@ -1,6 +1,8 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+
+#include "Camera.h"
 #include "Vector3.h"
 #include "Mtx44.h"
 
@@ -8,28 +10,26 @@ class Camera
 {
 public:
 
-
-	Camera(Vector3 position);
+	Camera(const Vector3& pos);
 	Camera();
 	~Camera();
-
 	Mtx44 LookAt();
+	void Init(const Vector3& pos);
 	void Reset();
 	void Update(double dt);
 	void Invert();
 	void setFreeLook(bool state);
 
-	Vector3 getPos();
 	Vector3 getRight();
 	Vector3 getFront();
 	float getYaw();
 
 private:
 
-	Vector3 position;
-	Vector3 target;
-	Vector3 up;
 	Vector3 front;
+	Vector3 target;
+	Vector3 position;
+	Vector3 up;
 
 	bool firstMouse;
 	bool canFreeLook;
@@ -40,10 +40,6 @@ private:
 	float pitch = 0.0f;
 
 	void updateMouse();
-
 };
 
 #endif
-
-
-

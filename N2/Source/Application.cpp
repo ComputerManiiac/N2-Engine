@@ -37,9 +37,13 @@ Application::Application(const char* name, unsigned int screenWidth, unsigned in
  
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(window, mouseCallback);
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	
 }
 
-Application::Application()
+Application::Application() 
 {
 }
 

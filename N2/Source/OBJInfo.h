@@ -11,8 +11,8 @@ public:
 	OBJInfo();
 	~OBJInfo();
 
-	std::vector<Vertex>* getVertices();
-	std::vector<unsigned int>* getIndices();
+	const std::vector<Vertex>& getVertices() const;
+	const std::vector<unsigned int>& getIndices() const;
 
 	static OBJInfo generateQuad();
 	static OBJInfo generateCube();

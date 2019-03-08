@@ -22,12 +22,11 @@ Manager::~Manager()
 
 	for (auto& system : systems)
 	{
-		System* sys = system.second;
-		sys->Deinitialize();
+		delete system.second;
 	}
 
-	for (auto& system : systems) {
-		delete system.second;
+	for (auto& entity : entities) {
+		delete entity.second;
 	}
 
 	for (auto& shader : shaders){
@@ -39,20 +38,21 @@ Manager::~Manager()
 void Manager::Initialize()
 {
 
-	camera = Camera(Vector3(0, 0, 0));
-
-
+	camera = Camera(Vector3(0, 1, 5));
 	shaders["lit"] = new ShaderProgram("Assets\\Shaders\\lit.vert", "Assets\\Shaders\\lit.frag");
 
 	registerSystem<RenderSystem>();
 
-	entity = new Entity();
+	entities["test"] = new Entity();
 
-	for (auto& system : systems)
-	{
-		System* sys = system.second;
-		sys->Initialize();
+	for (auto& system : systems) {
+		system.second->Initialize();
 	}
+
+
+
+
+
 }
 
 Camera * Manager::getCamera()
@@ -68,10 +68,12 @@ ShaderProgram * Manager::getShader(const std::string & name)
 
 void Manager::Update(double dt)
 {
-	camera.Update(dt);
+
 	for (auto& system : systems)
 	{
 		System* sys = system.second;
 		sys->Update(dt);
 	}
+	camera.Update(dt);
+
 }

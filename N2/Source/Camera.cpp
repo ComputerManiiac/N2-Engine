@@ -1,34 +1,38 @@
 #include "Camera.h"
 #include "Application.h"
 
-Camera::Camera(Vector3 position)
-{
-	firstMouse = true;
-	lastX = 400.0f;
-	lastY = 300.0f;
-	yaw = -89.0f;
-	pitch = 0.0f;
-	sensitivity = 0.08f;
 
-	front = Vector3(0.0f, 0.0f, 1.0f);
-	up = Vector3(0.0f, 1.0f, 0.0f);
-	this->position = position;
-
-	canFreeLook = true;
-	updateMouse();
+Camera::Camera(const Vector3& pos) {
+	Reset();
+	Init(pos);
 }
-
 
 Camera::Camera()
 {
+	Reset();
 }
-
 
 Camera::~Camera()
 {
 }
 
+void Camera::Init(const Vector3& pos)
+{
+	firstMouse = true;
+	lastX = 684.0f;
+	lastY = 384.0f;
+	yaw = -89.0f;
+	pitch = 0.0f;
+	sensitivity = 0.04f;
 
+	front = Vector3(0.0f, 0.0f, 1.0f);
+	up = Vector3(0.0f, 1.0f, 0.0f);
+	this->position = pos;
+
+	canFreeLook = true;
+
+	updateMouse();
+}
 
 void Camera::Reset()
 {
@@ -37,8 +41,7 @@ void Camera::Reset()
 	up.Set(0, 1, 0);
 }
 
-void Camera::setFreeLook(bool state)
-{
+void Camera::setFreeLook(bool state) {
 	canFreeLook = state;
 }
 
@@ -54,10 +57,9 @@ void Camera::updateMouse()
 		firstMouse = false;
 	}
 
-	double xoffset = (mouseX - lastX);
+	double xoffset = (mouseX -lastX);
 	// Flip since Y-coordinates range from bottom to top
-	double yoffset = (lastY - mouseY);
-
+	double yoffset = (lastY -  mouseY);
 	lastX = mouseX;
 	lastY = mouseY;
 
@@ -98,8 +100,7 @@ Mtx44 Camera::LookAt()
 	Vector3 u = s.Cross(f);
 
 	Mtx44 mat;
-	if (canFreeLook)
-	{
+	if (canFreeLook) {
 
 		mat = Mtx44(s.x, u.x, -f.x, 0,
 			s.y, u.y, -f.y, 0,
@@ -118,22 +119,14 @@ void Camera::Invert()
 	pitch = -pitch;
 }
 
-Vector3 Camera::getFront()
-{
+Vector3 Camera::getFront() {
 	return front;
 }
 
-Vector3 Camera::getPos()
-{
-	return position;
-}
-
-Vector3 Camera::getRight()
-{
+Vector3 Camera::getRight() {
 	return front.Cross(up).Normalize();
 }
 
-float Camera::getYaw()
-{
+float Camera::getYaw() {
 	return yaw;
 }

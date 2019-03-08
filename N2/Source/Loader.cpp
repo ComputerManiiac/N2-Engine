@@ -89,7 +89,7 @@ OBJInfo Loader::loadOBJ(const std::string & filePath)
 
 	// Input
 	std::string line;
-	char buffer[256];
+
 	std::vector<Vector3> texCoords;
 	std::vector<Vector3> normals;
 	std::vector<Vector3> positions;
@@ -104,29 +104,30 @@ OBJInfo Loader::loadOBJ(const std::string & filePath)
 
 
 	while (!handle.eof()){
-
+		char buffer[256];
 		handle.getline(buffer, 256);
-		Vector3 vertex;
+		Vector3 v;
 
 		// Vertex
 		if (strncmp("v ", buffer, 2) == 0)
 		{
-			sscanf_s((buffer + 2), "%f%f%f", &vertex.x, &vertex.y, &vertex.z);
-			positions.push_back(vertex);
+			sscanf_s((buffer + 2), "%f%f%f", &v.x, &v.y, &v.z);
+			positions.push_back(v);
 		}
 
 		// Texture Coordinate
 		else if (strncmp("vt ", buffer, 3) == 0)
 		{
-			sscanf_s((buffer + 3), "%f%f%f", &vertex.x, &vertex.y, &vertex.z);
-			texCoords.push_back(vertex);
+			sscanf_s((buffer + 3), "%f%f", &v.x, &v.y);
+			v.z = 0;
+			texCoords.push_back(v);
 		}
 
 		// Vertex Normal
 		else if (strncmp("vn ", buffer, 3) == 0)
 		{
-			sscanf_s((buffer + 3), "%f%f%f", &vertex.x, &vertex.y, &vertex.z);
-			normals.push_back(vertex);
+			sscanf_s((buffer + 3), "%f%f%f", &v.x, &v.y, &v.z);
+			normals.push_back(v);
 		}
 
 		// Face
@@ -142,12 +143,23 @@ OBJInfo Loader::loadOBJ(const std::string & filePath)
 
 			if (matches == 9 || matches == 12)
 			{
-				int sets = matches / 3;
-				for (int i = 0; i < sets; i++)
+				for (int i = 0; i < 3; i++)
 				{
 					vertIndices.push_back(vertexIndex[i]);
 					uvIndices.push_back(uvIndex[i]);
 					normalIndices.push_back(normalIndex[i]);
+				}
+
+				if (matches == 12) {
+					vertIndices.push_back(vertexIndex[2]);
+					vertIndices.push_back(vertexIndex[3]);
+					vertIndices.push_back(vertexIndex[0]);
+					uvIndices.push_back(uvIndex[2]);
+					uvIndices.push_back(uvIndex[3]);
+					uvIndices.push_back(uvIndex[0]);
+					normalIndices.push_back(normalIndex[2]);
+					normalIndices.push_back(normalIndex[3]);
+					normalIndices.push_back(normalIndex[0]);
 				}
 			}
 			else

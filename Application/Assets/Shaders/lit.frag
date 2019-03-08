@@ -23,7 +23,6 @@ struct Light {
 };
 
 struct Material {
-	vec3 kAmbient;
 	vec3 kDiffuse;
 	vec3 kSpecular;
 	float kShininess;
@@ -61,57 +60,57 @@ uniform sampler2D colorTexture;
 void main(){
 //	if(lightEnabled == true)
 //	{
-//		// Material properties
-//		vec4 materialColor;
-//		if(colorTextureEnabled == true)
-//			materialColor = texture2D( colorTexture, texCoord );
-//		else
-//			materialColor = vec4(1, 0, 0, 1);
-//
-//		// Vectors
-//		vec3 eyeDirection_cameraspace = - vertexPosition_cameraspace;
-//		vec3 E = normalize(eyeDirection_cameraspace);
-//		vec3 N = normalize( vertexNormal_cameraspace );
-//		
-//		color = vec4(0, 0, 0, 0);
-//		
-//		for(int i = 0; i < numLights; ++i)
-//		{
-//			// Light direction
-//			float spotlightEffect = 1;
-//			vec3 lightDirection_cameraspace;
-//			if(lights[i].type == 1) {
-//				lightDirection_cameraspace = lights[i].position_cameraspace;
-//			}
-//			else if(lights[i].type == 2) {
-//				lightDirection_cameraspace = lights[i].position_cameraspace - vertexPosition_cameraspace;
-//				spotlightEffect = getSpotlightEffect(lights[i], lightDirection_cameraspace);
-//			}
-//			else {
-//				lightDirection_cameraspace = lights[i].position_cameraspace - vertexPosition_cameraspace;
-//			}
-//			// Distance to the light
-//			float distance = length( lightDirection_cameraspace );
-//			
-//			// Light attenuation
-//			float attenuationFactor = getAttenuation(lights[i], distance);
-//
-//			vec3 L = normalize( lightDirection_cameraspace );
-//			float cosTheta = clamp( dot( N, L ), 0, 1 );
-//			
-//			vec3 R = reflect(-L, N);
-//			float cosAlpha = clamp( dot( E, R ), 0, 1 );
-//			
-//			color += 
-//				// Ambient : simulates indirect lighting
-//				materialColor * vec4(material.kAmbient, 1) +
-//				
-//				// Diffuse : "color" of the object
-//				materialColor * vec4(material.kDiffuse, 1) * vec4(lights[i].color, 1) * lights[i].power * cosTheta * attenuationFactor * spotlightEffect +
-//				
-//				// Specular : reflective highlight, like a mirror
-//				vec4(material.kSpecular, 1) * vec4(lights[i].color, 1) * lights[i].power * pow(cosAlpha, material.kShininess) * attenuationFactor * spotlightEffect;
-//		}
+
+	vec4 materialColor;
+	if(colorTextureEnabled == true)
+		materialColor = texture2D( colorTexture, texCoord );
+	else
+		materialColor = vec4(1, 0, 0, 1);
+
+	// Vectors
+	vec3 eyeDirection_cameraspace = - vertexPosition_cameraspace;
+	vec3 E = normalize(eyeDirection_cameraspace);
+	vec3 N = normalize( vertexNormal_cameraspace );
+		
+	color = vec4(0, 0, 0, 0);
+		
+	for(int i = 0; i < numLights; ++i)
+	{
+		// Light direction
+		float spotlightEffect = 1;
+		vec3 lightDirection_cameraspace;
+		if(lights[i].type == 1) {
+			lightDirection_cameraspace = lights[i].position_cameraspace;
+		}
+		else if(lights[i].type == 2) {
+			lightDirection_cameraspace = lights[i].position_cameraspace - vertexPosition_cameraspace;
+			spotlightEffect = getSpotlightEffect(lights[i], lightDirection_cameraspace);
+		}
+		else {
+			lightDirection_cameraspace = lights[i].position_cameraspace - vertexPosition_cameraspace;
+		}
+		// Distance to the light
+		float distance = length( lightDirection_cameraspace );
+			
+		// Light attenuation
+		float attenuationFactor = getAttenuation(lights[i], distance);
+
+		vec3 L = normalize( lightDirection_cameraspace );
+		float cosTheta = clamp( dot( N, L ), 0, 1 );
+			
+		vec3 R = reflect(-L, N);
+		float cosAlpha = clamp( dot( E, R ), 0, 1 );
+			
+		color += 
+			// Ambient : simulates indirect lighting
+			materialColor * vec4(material.kDiffuse, 1) +
+				
+			// Diffuse : "color" of the object
+			materialColor * vec4(material.kDiffuse, 1) * vec4(lights[i].color, 1) * lights[i].power * cosTheta * attenuationFactor * spotlightEffect +
+				
+			// Specular : reflective highlight, like a mirror
+			vec4(material.kSpecular, 1) * vec4(lights[i].color, 1) * lights[i].power * pow(cosAlpha, material.kShininess) * attenuationFactor * spotlightEffect;
+	}
 //	}
 //	else
 //	{
@@ -120,7 +119,6 @@ void main(){
 //		else
 //			color = vec4(1, 0, 0, 1);
 //	}
-
-	color = texture2D( colorTexture, texCoord );
-
+//	color = vec4(1,0,0,1);
+//	color = texture2D(colorTexture, texCoord);
 }

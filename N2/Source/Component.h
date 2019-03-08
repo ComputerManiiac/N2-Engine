@@ -14,7 +14,7 @@ public:
 	virtual ~Component();
 
 	void setName(const std::string& name);
-	std::string getName();
+	const std::string& getName() const;
 
 	void setParent(Entity* parent);
 	Entity* getParent();

@@ -27,7 +27,7 @@ void Component::setName(const std::string& name)
 	this->name = name;
 }
 
-std::string Component::getName()
+const std::string& Component::getName() const
 {
 	return name;
 }

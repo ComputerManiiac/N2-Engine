@@ -101,12 +101,12 @@ void ShaderProgram::setMat4(const std::string &name, Mtx44 matrix) const
 	glUniformMatrix4fv(attrid, 1, false, &matrix.a[0]);
 }
 
-const std::string& ShaderProgram::getVertexPath()
+const std::string& ShaderProgram::getVertexPath() const
 {
 	return vertexPath;
 }
 
-const std::string& ShaderProgram::getFragmentPath()
+const std::string& ShaderProgram::getFragmentPath() const
 {
 	return fragmentPath;
 }

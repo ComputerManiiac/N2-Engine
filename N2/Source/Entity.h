@@ -15,6 +15,7 @@ public:
 	Entity();
 	virtual ~Entity();
 
+
 	template<typename T>
 	void addComponent(T* component);
 

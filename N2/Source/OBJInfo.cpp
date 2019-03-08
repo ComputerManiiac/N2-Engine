@@ -17,14 +17,14 @@ OBJInfo::~OBJInfo()
 {
 }
 
-std::vector<Vertex>* OBJInfo::getVertices()
+const std::vector<Vertex>& OBJInfo::getVertices() const
 {
-	return &vertices;
+	return vertices;
 }
 
-std::vector<unsigned int>* OBJInfo::getIndices()
+const std::vector<unsigned int>& OBJInfo::getIndices() const
 {
-	return &indices;
+	return indices;
 }
 
 OBJInfo OBJInfo::generateQuad()

@@ -29,8 +29,8 @@ public:
 	void setVec4(const std::string &name, float x, float y, float z, float w) const;
 	void setMat4(const std::string &name, Mtx44 matrix) const;
 
-	const std::string& getVertexPath();
-	const std::string& getFragmentPath();
+	const std::string& getVertexPath() const;
+	const std::string& getFragmentPath() const;
 
 private:
 	unsigned int id;

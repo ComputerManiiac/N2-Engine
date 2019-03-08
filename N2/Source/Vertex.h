@@ -14,7 +14,6 @@ public:
 	void setPos(const Vector3& pos);
 	void setNormal(const Vector3& normal);
 	void setTexCoord(const Vector3& texCoord);
-
 	void setAll(const Vector3& pos, const Vector3& texCoord, const Vector3& normal);
 
 private:
