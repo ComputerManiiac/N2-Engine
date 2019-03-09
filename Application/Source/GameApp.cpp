@@ -22,11 +22,13 @@ GameApp::~GameApp()
 
 void GameApp::Run()
 {
+	StopWatch timer;
+	timer.startTimer();
+	timer.getElapsedTime();
 
 	Manager* m = Manager::getInstance();
 	m->Initialize();
-	StopWatch timer;
-	timer.startTimer();
+
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))

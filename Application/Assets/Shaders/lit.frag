@@ -10,12 +10,15 @@ out vec4 color;
 
 struct Light {
 	int type;
+
 	vec3 position_cameraspace;
 	vec3 color;
 	float power;
 	float kC;
 	float kL;
 	float kQ;
+
+	/* Spotlight Specific */
 	vec3 spotDirection;
 	float cosCutoff;
 	float cosInner;
@@ -39,7 +42,7 @@ float getSpotlightEffect(Light light, vec3 lightDirection) {
 	vec3 S = normalize(light.spotDirection);
 	vec3 L = normalize(lightDirection);
 	float cosDirection = dot(L, S);
-	//return smoothstep(light.cosCutoff, light.cosInner, cosDirection);
+	return smoothstep(light.cosCutoff, light.cosInner, cosDirection);
 	if(cosDirection < light.cosCutoff)
 		return 0;
 	else
@@ -120,5 +123,5 @@ void main(){
 //			color = vec4(1, 0, 0, 1);
 //	}
 //	color = vec4(1,0,0,1);
-//	color = texture2D(colorTexture, texCoord);
+	color = texture2D(colorTexture, texCoord);
 }

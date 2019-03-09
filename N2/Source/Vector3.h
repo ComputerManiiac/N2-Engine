@@ -50,6 +50,7 @@ struct Vector3
 	bool operator!= ( const Vector3& rhs ) const; //Inequality check
 
 	Vector3& operator=(const Vector3& rhs); //Assignment operator
+	Vector3& operator=(const float& rhs); // Vector3 = Scalar check
 
 	float Length( void ) const; //Get magnitude
 	float LengthSquared (void ) const; //Get square of magnitude

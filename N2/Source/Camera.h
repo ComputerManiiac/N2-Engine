@@ -20,9 +20,10 @@ public:
 	void Invert();
 	void setFreeLook(bool state);
 
-	Vector3 getRight();
-	Vector3 getFront();
-	float getYaw();
+	const Vector3& getRight() const;
+	const Vector3& getFront() const;
+	const float& getYaw() const;
+	const Vector3& getPos() const;
 
 private:
 

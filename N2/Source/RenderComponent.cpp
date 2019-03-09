@@ -8,7 +8,7 @@ RenderComponent::RenderComponent(Entity* parent, OBJInfo info, unsigned int text
 	this->info = info;
 	this->textureID = textureID;
 
-	material = Material(0.2f, 0.1f, 1.0f);
+	material = Material(Vector3(0.2f, 0.2f, 0.2f), Vector3(0.1f,0.1f,0.1f), 1.0f);
 }
 
 

@@ -261,6 +261,15 @@ Vector3& Vector3::operator=(const Vector3& rhs)
 	return *this;
 }
 
+Vector3 & Vector3::operator=(const float & rhs)
+{
+	std::cout << "[WARNING] Vector3=Scalar, Undefined behaviour!" << std::endl;
+	x = rhs;
+	y = rhs;
+	z = rhs;
+	return *this;
+}
+
 /******************************************************************************/
 /*!
 \brief
