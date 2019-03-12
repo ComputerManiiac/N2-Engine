@@ -40,10 +40,16 @@ void Manager::Initialize()
 
 	camera = Camera(Vector3(0, 1, 5));
 	shaders["lit"] = new ShaderProgram("Assets\\Shaders\\lit.vert", "Assets\\Shaders\\lit.frag");
-
+	
 	registerSystem<RenderSystem>();
+	registerSystem<PhysicsSystem>();
+	
+	entities["abc"] = new Entity(Vector3(0, 5, 0));
+	entities["ground"] = new Entity(Vector3(0, 0, 0), Vector3(0,0,0), Vector3(100,1,100), OBJInfo::genCube(), Loader::loadTGA("Assets\\Textures\\human.tga"));
+	entities["test"] = new Entity(Vector3(8,5,0), Vector3(0,30,0), Vector3(1, 1, 1), Loader::loadOBJ("Assets\\Models\\devastator.obj"), 
+		Loader::loadTGA("Assets\\Textures\\devastator.tga"));
 
-	entities["test"] = new Entity();
+	
 
 	for (auto& system : systems) {
 		system.second->Initialize();

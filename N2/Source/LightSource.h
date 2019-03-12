@@ -3,6 +3,9 @@
 
 #include "Vector3.h"
 #include "ShaderProgram.h"
+#include "MatrixStack.h"
+#include <iostream>
+#include <string>
 
 enum LIGHT_TYPE {
 	LIGHT_POINT = 0,
@@ -21,27 +24,33 @@ public:
 	LightSource();
 	~LightSource();
 
-	void setPointLight(const Vector3& positionCameraSpace, const Vector3& color, const float& power,
+	void setPointLight(const Vector3& position, const Vector3& color, const float& power,
 		const float& kC, const float& kL, const float& kQ);
 	
-	void setDirLight(const Vector3& positionCameraSpace, const Vector3& color, const float& power);
-	void setSpotLight(const Vector3& positionCameraSpace, const Vector3& color, const Vector3& spotDirection,
+	void setDirLight(const Vector3& direction, const Vector3& color, const float& power);
+	void setSpotLight(const Vector3& position, const Vector3& color, const Vector3& spotDirection,
 		const float& power, const float& cosCutoff, const float& cosInner, const float& exponent,
 		const float& kC, const float &kL, const float& kQ);
 
 	void setPosition(const Vector3& position);
+	void setPower(const float& power);
+	void setColor(const Vector3& color);
+	void setSpotlightDir(const Vector3& direction);
 
-	void updateAttribs(ShaderProgram* shader);
+	void setupAttribs(ShaderProgram* shader);
+	void updateAttribs(ShaderProgram* shader, const MS& viewStack);
+
+	static unsigned int& getCount();
 
 private:
 
-	const std::string& getPropertyName(const std::string& propertyName) const;
+	std::string getPropertyName(const std::string& propertyName) const;
 
 	unsigned int id;
 	static unsigned int count;
 
 	LIGHT_TYPE type;
-	Vector3 positionCameraSpace;
+	Vector3 position;
 	Vector3 color;
 	float power;
 	float kC;

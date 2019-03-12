@@ -11,7 +11,7 @@ TransformComponent::TransformComponent(Entity* parent, Vector3 pos, Vector3 rot,
 TransformComponent::TransformComponent(Entity* parent) : Component("Transform", parent)
 {
 	/*position.SetZero();*/
-	position.Set(5, 2, 1);
+	position.Set(0,0,0);
 	rotation.SetZero();
 	scale.Set(1, 1, 1);
 }

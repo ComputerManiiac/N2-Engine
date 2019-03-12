@@ -48,3 +48,8 @@ void Vertex::setAll(const Vector3 & pos,const Vector3 & texCoord, const Vector3 
 	this->normal = normal;
 	this->texCoord = texCoord;
 }
+
+const Vector3& Vertex::getPos() const
+{
+	return position;
+}

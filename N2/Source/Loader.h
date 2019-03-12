@@ -17,6 +17,7 @@ public:
 	~Loader();
 	static unsigned int loadTGA(const std::string& filePath);
 	static OBJInfo loadOBJ(const std::string& filePath);
+
 };
 
 #endif

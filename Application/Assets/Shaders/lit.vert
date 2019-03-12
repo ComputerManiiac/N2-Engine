@@ -10,9 +10,9 @@ out vec3 vertexPosition_cameraspace;
 out vec3 vertexNormal_cameraspace;
 out vec2 texCoord;
 
+
 // Values that stay constant for the whole mesh.
 uniform mat4 MVP;
-uniform mat4 model;
 uniform mat4 MV;
 uniform mat4 MV_inverse_transpose;
 uniform bool lightEnabled;

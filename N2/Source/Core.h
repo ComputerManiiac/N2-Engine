@@ -18,6 +18,7 @@
 
 #include "System.h"
 #include "RenderSystem.h"
+#include "PhysicsSystem.h"
 
 #include "timer.h"
 

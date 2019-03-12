@@ -1,5 +1,5 @@
 #include "RenderComponent.h"
-
+#include "Entity.h"
 
 RenderComponent::RenderComponent(Entity* parent, OBJInfo info, unsigned int textureID, DRAW_MODE mode) : Component("Render", parent)
 {
@@ -7,14 +7,14 @@ RenderComponent::RenderComponent(Entity* parent, OBJInfo info, unsigned int text
 	this->mode = mode;
 	this->info = info;
 	this->textureID = textureID;
-
-	material = Material(Vector3(0.2f, 0.2f, 0.2f), Vector3(0.1f,0.1f,0.1f), 1.0f);
+	this->drawCollider = false;
+	material = Material(Vector3(0.2f, 0.2f, 0.2f), Vector3(0.4f, 0.4f, 0.4f), Vector3(0.3f,0.3f,0.3f), 1.0f);
 }
 
 
 RenderComponent::RenderComponent(Entity* parent) : Component("Render", parent)
 {
-	
+	std::cout << "[WARNING] OBJInfo not set for RenderComponent!" << std::endl;
 }
 
 RenderComponent::RenderComponent()
@@ -27,12 +27,12 @@ RenderComponent::~RenderComponent()
 
 }
 
-void RenderComponent::setBufferObjects(const unsigned int & VBO, const unsigned int & EBO)
+void RenderComponent::setBufferObjects(const unsigned int& VAO, const unsigned int & VBO, const unsigned int & EBO)
 {
+	this->VAO = VAO;
 	this->VBO = VBO;
 	this->EBO = EBO;
 }
-
 
 const OBJInfo& RenderComponent::getInfo() const
 {
@@ -47,6 +47,11 @@ const DRAW_MODE& RenderComponent::getMode() const
 const Material& RenderComponent::getMaterial() const
 {
 	return material;
+}
+
+const unsigned int & RenderComponent::getVAO() const
+{
+	return VAO;
 }
 
 const unsigned int& RenderComponent::getVBO() const

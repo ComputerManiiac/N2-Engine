@@ -177,7 +177,7 @@ OBJInfo Loader::loadOBJ(const std::string & filePath)
 	std::map<Vertex, unsigned int> data;
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
-
+	
 	// Loop through all the indices
 	for (unsigned int i = 0; i < (unsigned int)vertIndices.size(); i++)
 	{
@@ -192,6 +192,7 @@ OBJInfo Loader::loadOBJ(const std::string & filePath)
 		Vector3 norm = normals[normIndex - 1];
 
 		Vertex v(pos, uv, norm);
+
 
 		// Add the same index number if vertex already exists
 		if (data.find(v) != data.end())
@@ -209,8 +210,11 @@ OBJInfo Loader::loadOBJ(const std::string & filePath)
 		}
 	}
 
-	
 	return OBJInfo(vertices, indices);
+
+
+
+	
 }
 
 

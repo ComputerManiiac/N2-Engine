@@ -153,6 +153,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\ColliderComponent.cpp" />
+    <ClCompile Include="Source\PhysicsSystem.cpp" />
     <ClCompile Include="Source\LightSource.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Material.cpp" />
@@ -176,6 +178,8 @@
     <ClCompile Include="Source\Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\ColliderComponent.h" />
+    <ClInclude Include="Source\PhysicsSystem.h" />
     <ClInclude Include="Source\LightSource.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\EventHandler.h" />

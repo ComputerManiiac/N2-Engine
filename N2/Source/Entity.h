@@ -5,6 +5,7 @@
 #include "Component.h"
 #include "TransformComponent.h"
 #include "RenderComponent.h"
+#include "ColliderComponent.h"
 #include <map>
 #include <typeinfo>
 #include <typeindex>
@@ -12,6 +13,10 @@
 class Entity
 {
 public:
+
+	Entity(Vector3 position, Vector3 rotation, Vector3 scale, OBJInfo model, unsigned int texture);
+	Entity(OBJInfo model);
+	Entity(Vector3 position);
 	Entity();
 	virtual ~Entity();
 
@@ -45,14 +50,10 @@ T* Entity::getComponent()
 	{
 		Component* comp = components[id];
 		T* tComp = dynamic_cast<T*>(comp);
-		if (tComp == nullptr)
-			std::cout << "[ERROR] Trying to retrieve component of type " << typeid(T).name() << " from Entity which does not exist!" << std::endl;
-
 		return tComp;
 	}
 	else
 	{
-		std::cout << "[ERROR] Trying to retrieve component of type " << typeid(T).name() << " from Entity which does not exist!" << std::endl;
 		return nullptr;
 	}
 }
