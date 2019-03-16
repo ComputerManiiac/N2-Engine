@@ -16,6 +16,7 @@ public:
 
 	static OBJInfo genQuad();
 	static OBJInfo genCube();
+
 	static std::vector<Vector3> genBoxCollider(const OBJInfo& obj);
 
 

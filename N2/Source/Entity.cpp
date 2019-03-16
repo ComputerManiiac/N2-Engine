@@ -3,8 +3,10 @@
 #include "Manager.h"
 
 
-Entity::Entity(Vector3 position, Vector3 rotation, Vector3 scale, OBJInfo model, unsigned int texture)
+Entity::Entity(std::string name, Vector3 position, Vector3 rotation, Vector3 scale, OBJInfo model, unsigned int texture)
 {
+	this->name = name;
+
 	addComponent(new TransformComponent(this, position, rotation, scale));
 	addComponent(new RenderComponent(this, model, texture));
 
@@ -41,6 +43,11 @@ Entity::~Entity()
 	for (auto& component : components) {
 		delete component.second;
 	}
+}
+
+const std::string & Entity::getName() const
+{
+	return name;
 }
 
 

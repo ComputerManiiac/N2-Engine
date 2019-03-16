@@ -11,8 +11,6 @@ class Manager
 public:
 	static Manager* getInstance();
 	~Manager();
-
-
 	
 	void Initialize();
 	void Update(double dt);
@@ -22,6 +20,9 @@ public:
 
 	template<typename T>
 	void registerSystem();
+
+	template<typename T>
+	T* getSystem();
 
 	Camera* getCamera();
 	ShaderProgram* getShader(const std::string& name);
@@ -49,4 +50,12 @@ template<typename T>
 void Manager::registerSystem() {
 	systems[std::type_index(typeid(T*))] = new T();
 }
+
+
+template<typename T>
+T* Manager::getSystem()
+{
+	return dynamic_cast<T*>(systems[std::type_index(typeid(T*))]);
+}
+
 #endif

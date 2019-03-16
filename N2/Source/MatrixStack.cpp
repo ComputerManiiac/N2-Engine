@@ -133,6 +133,7 @@ void MS::Rotate(float degrees, float axisX, float axisY, float axisZ) {
 	ms.top() = ms.top() * mat;
 }
 
+
 /******************************************************************************/
 /*!
 \brief
@@ -229,3 +230,32 @@ void MS::LookAt(double eyeX, double eyeY, double eyeZ,
 	mat.SetToLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
 	ms.top() = ms.top() * mat;
 }
+
+
+
+/* Custom Methods */
+
+void MS::Translate(const Vector3& translation)
+{
+	Mtx44 mat;
+	mat.SetToTranslation(translation.x, translation.y, translation.z);
+	ms.top() = ms.top() * mat;
+}
+
+void MS::Rotate(const Vector3& rotation)
+{
+	Mtx44 mat;
+	mat.SetToRotation(rotation.x, 1, 0, 0);
+	ms.top() = ms.top() * mat;
+	mat.SetToRotation(rotation.y, 0, 1, 0);
+	ms.top() = ms.top() * mat;
+	mat.SetToRotation(rotation.z, 0, 0, 1);
+}
+
+void MS::Scale(const Vector3& scale)
+{
+	Mtx44 mat;
+	mat.SetToScale(scale.x, scale.y, scale.z);
+	ms.top() = ms.top() * mat;
+}
+

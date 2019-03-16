@@ -9,6 +9,7 @@ Struct to define a 3D vector
 /******************************************************************************/
 #include <cmath>
 #include "Vector3.h"
+#include "Mtx44.h"
 
 bool Vector3::IsEqual(float a, float b) const
 {
@@ -270,6 +271,31 @@ Vector3 & Vector3::operator=(const float & rhs)
 	return *this;
 }
 
+Vector3 Vector3::Rotate(const Vector3& rot)
+{
+	Vector3 rotRad;
+	rotRad.x = Math::DegreeToRadian(rot.x);
+	rotRad.y = Math::DegreeToRadian(rot.y);
+	rotRad.z = Math::DegreeToRadian(rot.z);
+
+	Mtx44 xRot = Mtx44(1, 0, 0, 0,
+		0, cos(rotRad.x), -sin(rotRad.x), 0,
+		0, sin(rotRad.x), cos(rotRad.x), 0,
+		0, 0, 0, 1);
+
+	Mtx44 yRot = Mtx44(cos(rotRad.y), 0, sin(rotRad.y), 0,
+		0, 1, 0, 0,
+		-sin(rotRad.y), 0, cos(rotRad.y), 0,
+		0, 0, 0, 1);
+
+	Mtx44 zRot = Mtx44(cos(rotRad.z), -sin(rotRad.z), 0, 0,
+		sin(rotRad.z), cos(rotRad.z), 0, 0,
+		0, 0, 1, 0,
+		0, 0, 0, 1);
+
+	return Vector3(zRot * xRot * yRot * (*this));
+}
+
 /******************************************************************************/
 /*!
 \brief
@@ -384,7 +410,7 @@ std::ostream& operator<< (std::ostream& os, Vector3& rhs)
 	return os;
 }
 
-std::ostream& operator<< (std::ostream& os, Vector3 rhs)
+std::ostream& operator<< (std::ostream& os, const Vector3& rhs)
 {
 	os << "(" << rhs.x << "," << rhs.y << "," << rhs.z << ")";
 	return os;

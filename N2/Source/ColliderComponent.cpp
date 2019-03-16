@@ -28,20 +28,44 @@ void ColliderComponent::setBufferObjects(const unsigned int& VAO, const unsigned
 	this->EBO = EBO;
 }
 
+
+
 const Vector3 & ColliderComponent::getScale() const
 {
 	return scale;
 }
 
-const std::vector<Vector3>& ColliderComponent::getVertices() const
+std::vector<Vector3> ColliderComponent::getVertices() const
 {
-	return vertices;
+	return getVertices(Vector3(0, 0, 0), Vector3(0, 0, 0));
+}
+
+std::vector<Vector3> ColliderComponent::getVertices(const Vector3& trans, const Vector3& rot) const
+{
+	TransformComponent* transform = parent->getComponent<TransformComponent>();
+	const Vector3& translation = transform->getPos();
+	const Vector3& rotation = transform->getRot();
+	const Vector3& scale = transform->getScale();
+
+	std::vector<Vector3> transformVertices;
+	for (Vector3 vertex : vertices)
+	{
+		vertex += translation + trans;
+		vertex.x *= scale.x;
+		vertex.y *= scale.y;
+		vertex.z *= scale.z;
+		transformVertices.push_back(vertex.Rotate(rotation).Rotate(rot));
+	}
+
+	return transformVertices;
 }
 
 const bool& ColliderComponent::shouldDrawCollider() const
 {
 	return drawCollider;
 }
+
+
 
 const unsigned int& ColliderComponent::getVAO() const
 {

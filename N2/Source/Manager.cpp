@@ -1,4 +1,5 @@
 #include "Manager.h"
+#include "Application.h"
 
 Manager* Manager::instance = nullptr;
 
@@ -44,10 +45,12 @@ void Manager::Initialize()
 	registerSystem<RenderSystem>();
 	registerSystem<PhysicsSystem>();
 	
-	entities["abc"] = new Entity(Vector3(0, 5, 0));
-	entities["ground"] = new Entity(Vector3(0, 0, 0), Vector3(0,0,0), Vector3(100,1,100), OBJInfo::genCube(), Loader::loadTGA("Assets\\Textures\\human.tga"));
-	entities["test"] = new Entity(Vector3(8,5,0), Vector3(0,30,0), Vector3(1, 1, 1), Loader::loadOBJ("Assets\\Models\\devastator.obj"), 
-		Loader::loadTGA("Assets\\Textures\\devastator.tga"));
+	entities["car"] = new Entity("car", Vector3(0, 10, 0), Vector3(0, 45, 0), Vector3(1, 1, 1), Loader::loadOBJ("Assets\\Models\\devastator.obj"), Loader::loadTGA("Assets\\Textures\\rock.tga"));
+	entities["another"] = new Entity("car2", Vector3(1, 100, 0), Vector3(0, 0, 0), Vector3(1, 1, 1), Loader::loadOBJ("Assets\\Models\\devastator.obj"), Loader::loadTGA("Assets\\Textures\\devastator.tga"));
+	//entities["test"] = new Entity(Vector3(1, 5, 0), Vector3(0, 0, 0), Vector3(1, 1, 1), Loader::loadOBJ("Assets\\Models\\devastator.obj"),
+	//	Loader::loadTGA("Assets\\Textures\\devastator.tga"));
+	entities["ground"] = new Entity("ground", Vector3(0, 0, 0), Vector3(0,0,0), Vector3(100,1,100), OBJInfo::genCube(), Loader::loadTGA("Assets\\Textures\\human.tga"));
+
 
 	
 
@@ -61,7 +64,7 @@ void Manager::Initialize()
 
 }
 
-Camera * Manager::getCamera()
+Camera* Manager::getCamera()
 {
 	return &camera;
 }
@@ -74,6 +77,22 @@ ShaderProgram * Manager::getShader(const std::string & name)
 
 void Manager::Update(double dt)
 {
+
+	if (Application::isKeyPressDown(GLFW_KEY_L))
+	{
+		Vector3 mtv;
+		//
+		//std::cout << (getSystem<PhysicsSystem>()->checkCollision(entities["abc"]->getComponent<ColliderComponent>(), 
+		//	entities["another"]->getComponent<ColliderComponent>(), mtv) ? "True" : "False") << std::endl;
+
+		while(getSystem<PhysicsSystem>()->checkCollision(entities["car"]->getComponent<ColliderComponent>(),
+			entities["ground"]->getComponent<ColliderComponent>(), Vector3(0,0,0), Vector3(0,0,0), mtv))
+		{
+			std::cout << mtv << std::endl;
+			std::cout << "True" << std::endl;
+			entities["abc"]->getComponent<TransformComponent>()->Move(mtv);
+		}
+	}
 
 	for (auto& system : systems)
 	{

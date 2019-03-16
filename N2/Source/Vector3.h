@@ -52,6 +52,8 @@ struct Vector3
 	Vector3& operator=(const Vector3& rhs); //Assignment operator
 	Vector3& operator=(const float& rhs); // Vector3 = Scalar check
 
+	Vector3 Rotate(const Vector3& rot);
+
 	float Length( void ) const; //Get magnitude
 	float LengthSquared (void ) const; //Get square of magnitude
 	
@@ -67,10 +69,10 @@ struct Vector3
 	Vector3& Normalize( void ) throw( DivideByZero );
 	
 
-	friend std::ostream& operator<<(std::ostream& os, Vector3 rhs);
+	friend std::ostream& operator<<(std::ostream& os, const Vector3& rhs);
 	friend std::ostream& operator<<( std::ostream& os, Vector3& rhs); //print to ostream
 
-	friend Vector3 operator*( float scalar, const Vector3& rhs ); //what is this for?
+	friend Vector3 operator*( float scalar, const Vector3& rhs ); 
 };
 
 

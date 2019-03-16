@@ -7,7 +7,6 @@ RenderComponent::RenderComponent(Entity* parent, OBJInfo info, unsigned int text
 	this->mode = mode;
 	this->info = info;
 	this->textureID = textureID;
-	this->drawCollider = false;
 	material = Material(Vector3(0.2f, 0.2f, 0.2f), Vector3(0.4f, 0.4f, 0.4f), Vector3(0.3f,0.3f,0.3f), 1.0f);
 }
 

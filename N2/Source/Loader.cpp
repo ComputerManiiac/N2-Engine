@@ -11,7 +11,7 @@ Loader::~Loader()
 {
 }
 
-
+// Loads a .TGA image file from a given file path and generates a GL_TEXTURE_2D, returning a GLuint/unsigned int for it.
 unsigned Loader::loadTGA(const std::string& filePath)
 {
 	std::ifstream fileStream(filePath, std::ios::binary);
@@ -77,6 +77,7 @@ unsigned Loader::loadTGA(const std::string& filePath)
 	return texture;
 }
 
+// Loads a .OBJ file from a given file path and generates an OBJInfo object containing all Vertex (position,uv,normals) and Indices information.
 OBJInfo Loader::loadOBJ(const std::string & filePath)
 {
 	std::ifstream handle(filePath);
@@ -89,15 +90,13 @@ OBJInfo Loader::loadOBJ(const std::string & filePath)
 
 	// Input
 	std::string line;
-
 	std::vector<Vector3> texCoords;
 	std::vector<Vector3> normals;
 	std::vector<Vector3> positions;
 
 	// Stores the index of each vertex (position, texCoord and normal) of each triangle 
-	// where index = position+1
 	// Index is the position of the specific attribute in its respective vector, but incremented by 1 
-	// since vector starts from 0 while obj file starts from 1
+	// since vector starts from 0 while obj file format starts from 1
 	std::vector<unsigned int> vertIndices;
 	std::vector<unsigned int> uvIndices;
 	std::vector<unsigned int> normalIndices;
@@ -143,6 +142,7 @@ OBJInfo Loader::loadOBJ(const std::string & filePath)
 
 			if (matches == 9 || matches == 12)
 			{
+				// Triangle & Quad
 				for (int i = 0; i < 3; i++)
 				{
 					vertIndices.push_back(vertexIndex[i]);
@@ -150,6 +150,7 @@ OBJInfo Loader::loadOBJ(const std::string & filePath)
 					normalIndices.push_back(normalIndex[i]);
 				}
 
+				// Quad
 				if (matches == 12) {
 					vertIndices.push_back(vertexIndex[2]);
 					vertIndices.push_back(vertexIndex[3]);
@@ -164,6 +165,7 @@ OBJInfo Loader::loadOBJ(const std::string & filePath)
 			}
 			else
 			{
+				// N-sided polygons
 				std::cout << "[ERROR] This model contains " << matches << "-sided polygons! (" << filePath << ")" << std::endl;
 				break;
 			}
@@ -193,7 +195,6 @@ OBJInfo Loader::loadOBJ(const std::string & filePath)
 
 		Vertex v(pos, uv, norm);
 
-
 		// Add the same index number if vertex already exists
 		if (data.find(v) != data.end())
 		{
@@ -211,10 +212,6 @@ OBJInfo Loader::loadOBJ(const std::string & filePath)
 	}
 
 	return OBJInfo(vertices, indices);
-
-
-
-	
 }
 
 

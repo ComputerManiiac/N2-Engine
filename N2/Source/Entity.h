@@ -14,11 +14,14 @@ class Entity
 {
 public:
 
-	Entity(Vector3 position, Vector3 rotation, Vector3 scale, OBJInfo model, unsigned int texture);
+	Entity(std::string name, Vector3 position, Vector3 rotation, Vector3 scale, OBJInfo model, unsigned int texture);
 	Entity(OBJInfo model);
 	Entity(Vector3 position);
 	Entity();
 	virtual ~Entity();
+
+
+	const std::string& getName() const;
 
 
 	template<typename T>
@@ -28,6 +31,8 @@ public:
 	T* getComponent();
 
 private:
+
+	std::string name;
 	std::map<std::type_index, Component*> components;
 };
 

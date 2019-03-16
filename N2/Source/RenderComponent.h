@@ -40,19 +40,14 @@ public:
 	const unsigned int& getTexID() const;
 
 
-
 private:
 	DRAW_MODE mode;
 	Material material;
 	OBJInfo info;
-
 	unsigned int VAO;
 	unsigned int VBO;
 	unsigned int EBO;
 	unsigned int textureID;
-
-	Entity* collider;
-	bool drawCollider;
 };
 
 #endif

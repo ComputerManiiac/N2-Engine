@@ -25,12 +25,17 @@ TransformComponent::~TransformComponent()
 {
 }
 
-void TransformComponent::setPos(const Vector3 & pos)
+void TransformComponent::Move(const Vector3& delta)
+{
+	position += delta;
+}
+
+void TransformComponent::setPos(const Vector3& pos)
 {
 	this->position = pos;
 }
 
-void TransformComponent::setRot(const Vector3 & rot)
+void TransformComponent::setRot(const Vector3& rot)
 {
 	this->rotation = rot;
 }
@@ -54,3 +59,16 @@ const Vector3& TransformComponent::getScale() const
 {
 	return scale;
 }
+
+void TransformComponent::getLocalAxes(Vector3* axes) const
+{
+	// X Axis
+	*axes = Vector3(1, 0, 0).Rotate(Vector3(0, rotation.y, 0)).Rotate(Vector3(0, 0, rotation.z));
+	// Y Axis
+	*(axes+1) = Vector3(0, 1, 0).Rotate(Vector3(rotation.x, 0, 0)).Rotate(Vector3(0, 0, rotation.z));
+	// Z Axis
+	*(axes+2) = Vector3(0, 0, 1).Rotate(Vector3(0, rotation.y, 0)).Rotate(Vector3(rotation.x, 0, 0));
+}
+
+
+

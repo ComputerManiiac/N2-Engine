@@ -14,6 +14,7 @@ public:
 	TransformComponent();
 	~TransformComponent();
 
+	void Move(const Vector3& delta);
 	void setPos(const Vector3& pos);
 	void setScale(const Vector3& scale);
 	void setRot(const Vector3& rot);
@@ -22,6 +23,7 @@ public:
 	const Vector3& getRot() const;
 	const Vector3& getScale() const;
 	
+	void getLocalAxes(Vector3* axes) const;
 
 private:
 	Vector3 position;

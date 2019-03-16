@@ -7,6 +7,8 @@
 
 class Entity;
 
+
+
 class ColliderComponent : public Component
 {
 public:
@@ -16,14 +18,14 @@ public:
 
 	/* Initialized by RenderSystem*/
 	void setBufferObjects(const unsigned int& VAO, const unsigned int& VBO, const unsigned int& EBO);
-
 	const unsigned int& getVAO() const;
 	const unsigned int& getVBO() const;
 	const unsigned int& getEBO() const;
 	const Vector3& getScale() const;
-	const std::vector<Vector3>& getVertices() const;
-
 	const bool& shouldDrawCollider() const;
+
+	std::vector<Vector3> getVertices() const;
+	std::vector<Vector3> getVertices(const Vector3& translation, const Vector3& rotation) const;
 
 private:
 	unsigned int VAO;

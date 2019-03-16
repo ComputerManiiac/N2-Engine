@@ -34,11 +34,13 @@ RenderSystem::~RenderSystem()
 
 void RenderSystem::Initialize() {
 
+	// Defines projection matrix for the scene
 	Mtx44 proj;
 	proj.SetToPerspective(45.0f, (float)Application::getScreenWidth() / (float)Application::getScreenHeight(), 0.1f, 10000.0f);
 	projectionStack.LoadMatrix(proj);
 
-	for (auto& sub : subscribers)
+	// Generates vertex arrays and buffers for each render component and populates the assigned int into them
+	for (RenderComponent* sub : subscribers)
 	{
 		unsigned int VAO, VBO, EBO;
 		glGenVertexArrays(1, &VAO);
@@ -64,6 +66,7 @@ void RenderSystem::Initialize() {
 	setupLight();
 }
 
+// Sets up how attributes are layed out in the VAO before buffering data into VBO
 void RenderSystem::initializeOBJ(const OBJInfo& info, unsigned int& VAO, unsigned int& VBO, unsigned int& EBO)
 {
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -81,6 +84,7 @@ void RenderSystem::initializeOBJ(const OBJInfo& info, unsigned int& VAO, unsigne
 	glVertexAttribPointer(2, 3, GL_FLOAT, false, sizeof(Vertex), (void*)(sizeof(Vector3) + sizeof(Vector3)));
 }
 
+// Sets up values for all the lights in the Scene
 void RenderSystem::setupLight()
 {
 	LightSource* light = new LightSource(LIGHT_POINT);
@@ -104,6 +108,7 @@ void RenderSystem::setupLight()
 }
 
 
+// Uses data that are stored in the RenderComponent (stored previously through Initialize) to draw objects
 void RenderSystem::Update(double dt)
 {
 	modelStack.LoadIdentity();
@@ -123,16 +128,7 @@ void RenderSystem::Update(double dt)
 		modelStack.PushMatrix();
 
 		TransformComponent* transform = sub->getParent()->getComponent<TransformComponent>();
-		const Vector3& position = transform->getPos();
-		const Vector3& scale = transform->getScale();
-		const Vector3& rotation = transform->getRot();
-
-		modelStack.Translate(position.x, position.y, position.z);
-		modelStack.Rotate(rotation.x, 1, 0, 0);
-		modelStack.Rotate(rotation.y, 0, 1, 0);
-		modelStack.Rotate(rotation.z, 0, 0, 1);
-		modelStack.Scale(scale.x, scale.y, scale.z);
-
+		updateTransform(transform);
 		updateShader(sub);
 
 		const unsigned int& indexSize = sub->getInfo().getIndices().size();
@@ -163,62 +159,26 @@ void RenderSystem::Update(double dt)
 	glDisable(GL_TEXTURE_2D);
 }
 
-
-
-void RenderSystem::drawCollider(ColliderComponent* colliderComp)
+// Apply an object's transformations to the model stack
+void RenderSystem::updateTransform(TransformComponent* transform)
 {
-
-	const OBJInfo& cube = OBJInfo::genCube();
-	
-
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glBindVertexArray(colliderComp->getVAO());
-	modelStack.PushMatrix();
-
-	TransformComponent* transform = colliderComp->getParent()->getComponent<TransformComponent>();
 	const Vector3& position = transform->getPos();
 	const Vector3& rotation = transform->getRot();
-	const Vector3& worldScale = transform->getScale();
-	const Vector3& objScale = colliderComp->getScale();
-
-	modelStack.Translate(position.x, position.y, position.z);
-	modelStack.Rotate(rotation.x, 1, 0, 0);
-	modelStack.Rotate(rotation.y, 0, 1, 0);
-	modelStack.Rotate(rotation.z, 0, 0, 1);
-	modelStack.Scale(objScale.x, objScale.y, objScale.z);
-	modelStack.Scale(worldScale.x, worldScale.y, worldScale.z);
-
-	Mtx44 MVP, modelView, modelView_inverse_tranpose;
-	MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top();
-	modelView = viewStack.Top() * modelStack.Top();
-	modelView_inverse_tranpose = modelView.GetInverse().GetTranspose();
-
-	ShaderProgram* lit = Manager::getInstance()->getShader("lit");
-	lit->Use();
-	lit->setMat4("MVP", MVP);
-	lit->setMat4("MV", modelView);
-	lit->setMat4("MV_inverse_transpose", modelView_inverse_tranpose);
-	lit->setMat4("view", viewStack.Top());
-	lit->setInt("colorTextureEnabled", 0);
-	lit->setBool("lightEnabled", false);
-
-	const unsigned int& indexSize = cube.getIndices().size();
-	glDrawElements(GL_TRIANGLES, indexSize, GL_UNSIGNED_INT, 0);
-	lit->setBool("lightEnabled", true);
-
-	modelStack.PopMatrix();
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	const Vector3& scale = transform->getScale();
+	modelStack.Translate(position);
+	modelStack.Rotate(rotation);
+	modelStack.Scale(scale);
 }
 
-
-void RenderSystem::updateShader(RenderComponent * renderComp)
+// Update an object's transformational related information, as well as material and texture for lighting.
+void RenderSystem::updateShader(RenderComponent* render)
 {
 	Mtx44 MVP, modelView, modelView_inverse_tranpose;
 	MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top();
 	modelView = viewStack.Top() * modelStack.Top();
 	modelView_inverse_tranpose = modelView.GetInverse().GetTranspose();
 
-	const Material& mat = renderComp->getMaterial();
+	const Material& mat = render->getMaterial();
 	const Vector3& ambient = mat.getAmbient();
 	const Vector3& diffuse = mat.getDiffuse();
 	const Vector3& specular = mat.getSpecular();
@@ -238,6 +198,34 @@ void RenderSystem::updateShader(RenderComponent * renderComp)
 	lit->setInt("colorTextureEnabled", 1);
 	lit->setInt("colorTexture", 0);
 }
+
+
+// Draws an object's box collider
+void RenderSystem::drawCollider(ColliderComponent* collider)
+{
+
+	const OBJInfo& cube = OBJInfo::genCube();
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glBindVertexArray(collider->getVAO());
+	modelStack.PushMatrix();
+
+	updateTransform(collider->getParent()->getComponent<TransformComponent>());
+	modelStack.Scale(collider->getScale());
+	updateShader(collider->getParent()->getComponent<RenderComponent>());
+
+	ShaderProgram* lit = Manager::getInstance()->getShader("lit");
+	lit->setInt("colorTextureEnabled", 0);
+	lit->setBool("lightEnabled", false);
+
+	const unsigned int& indexSize = cube.getIndices().size();
+	glDrawElements(GL_TRIANGLES, indexSize, GL_UNSIGNED_INT, 0);
+	lit->setBool("lightEnabled", true);
+	modelStack.PopMatrix();
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	
+}
+
 
 
 void RenderSystem::registerComp(Component* component)
